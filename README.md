@@ -1,11 +1,13 @@
 # 🖼️ Farcaster Miniapp Wizard (Frame v2)
 
+[⭐️ Official Farcaster Demo Repo](https://github.com/farcasterxyz/frames-v2-demo/tree/main)<br/>
 [🛠️ Frame Playground](https://warpcast.com/~/developers/frame-playground) (Mobile only)<br/>
 [📦 Frame SDK](https://github.com/farcasterxyz/frames/)<br/>
 [👀 Dev preview docs](https://github.com/farcasterxyz/frames/wiki/frames-v2-developer-playground-preview)<br/>
-[⭐️ Official Demo Repo](https://github.com/farcasterxyz/frames-v2-demo/tree/main)<br/>
 
-## Screenshots
+## Loom Overview
+
+[📺 Loom overview of this repo](https://www.loom.com/share/e57353e0836f44d0a2cc0f4f983aede4?sid=21e16467-c6be-4524-ba53-fb774112943b)
 
 <div style="display: flex; justify-content: space-between;">
   <img src="/src/docs/1.png" width="30%" alt="Step 1" />
@@ -14,8 +16,6 @@
 </div>
 
 ## Getting Started (Moshicam specific)
-
-[📺 Loom overview of this repo](https://www.loom.com/share/e57353e0836f44d0a2cc0f4f983aede4?sid=21e16467-c6be-4524-ba53-fb774112943b)
 
 This is a NextJS + TypeScript + React app built with Bun.
 
@@ -48,11 +48,3 @@ Alternatively, you can enable Developer Tools in your Warpcast mobile app to acc
 In the Frame Playground, enter your ngrok URL.
 
 If you don't include the https:// the Warpcast app might crash.
-
-## Tutorial (Old info from original Frames README)
-
-Here's a full walkthrough of creating a frames v2 app:
-
-[![Frames v2 Tutorial](https://img.youtube.com/vi/5wAbo_YsuC4/0.jpg)](https://www.youtube.com/watch?v=5wAbo_YsuC4)
-
-[📺 View video](https://www.youtube.com/watch?v=5wAbo_YsuC4)
