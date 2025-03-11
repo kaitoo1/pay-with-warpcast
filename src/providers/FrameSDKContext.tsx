@@ -52,16 +52,19 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const load = async () => {
       const context = await sdk.context;
-      setContext(context);
-      setAdded(context.client.added);
 
-      const nonce = await getNonce();
+      if (context) {
+        setContext(context);
+        setAdded(context.client.added);
 
-      try {
-        const signInResult = await sdk.actions.signIn({ nonce });
-        setSignInResult(signInResult);
-      } catch (error) {
-        setSignInError(error as Error);
+        const nonce = await getNonce();
+
+        try {
+          const signInResult = await sdk.actions.signIn({ nonce });
+          setSignInResult(signInResult);
+        } catch (error) {
+          setSignInError(error as Error);
+        }
       }
 
       sdk.actions.ready({});
@@ -101,13 +104,7 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
       });
     };
 
-    if (process.env.NEXT_PUBLIC_USER_CONTEXT_REQUIRED !== "true") {
-      // manually load app without authentication
-      sdk.actions.ready({});
-      setIsLoaded(true);
-    } else {
-      load();
-    }
+    load();
 
     return () => {
       sdk.removeAllListeners();
