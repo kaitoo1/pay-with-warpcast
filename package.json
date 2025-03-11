@@ -7,8 +7,7 @@
     "build": "bun next build",
     "start": "bun next start",
     "lint": "bun next lint",
-    "ngrok": "ngrok http --domain=ngrok.moshi.cam 3000",
-    "tunnel": "concurrently \"NEXT_PUBLIC_NGROK_PROXY=true bun dev\" \"bun run ngrok\"",
+    "ngrok": "ngrok http 3000",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -21,7 +20,6 @@
     "@upstash/redis": "^1.34.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "concurrently": "^9.1.2",
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.469.0",
     "next": "15.1.7",
