@@ -24,6 +24,7 @@ interface FrameSDKContextType {
   signInResult: SignInCore.SignInResult | null;
   signInError: Error | undefined;
   handleAddFrame: () => void;
+  isValidFrameContext: boolean | null;
 }
 
 const FrameSDKContext = createContext<FrameSDKContextType | undefined>(
@@ -33,7 +34,10 @@ const FrameSDKContext = createContext<FrameSDKContextType | undefined>(
 // Logic lifted from Demo.tsx in official repo: https://github.com/farcasterxyz/frames-v2-demo/blob/main/src/components/Demo.tsx
 export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [context, setContext] = useState<Context.FrameContext>();
+  const [context, setContext] = useState<FrameSDKContextType["context"]>();
+  const [isValidFrameContext, setIsValidFrameContext] = useState<
+    boolean | null
+  >(null);
   const [added, setAdded] = useState(false);
   const [notificationDetails, setNotificationDetails] =
     useState<FrameNotificationDetails | null>(null);
@@ -54,6 +58,7 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
       const context = await sdk.context;
 
       if (context) {
+        setIsValidFrameContext(true);
         setContext(context);
         setAdded(context.client.added);
 
@@ -65,6 +70,8 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
         } catch (error) {
           setSignInError(error as Error);
         }
+      } else {
+        setIsValidFrameContext(false);
       }
 
       sdk.actions.ready({});
@@ -129,6 +136,7 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
       lastEvent,
       signInResult,
       signInError,
+      isValidFrameContext,
       handleAddFrame,
     }),
     [
@@ -139,6 +147,7 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
       lastEvent,
       signInResult,
       signInError,
+      isValidFrameContext,
       handleAddFrame,
     ]
   );

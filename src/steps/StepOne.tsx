@@ -5,7 +5,8 @@ import { useFrameSDK } from "~/providers/FrameSDKContext";
 
 export default function StepOne() {
   const { goNext } = useWizard();
-  const { context, signInResult, signInError } = useFrameSDK();
+  const { context, signInResult, signInError, isValidFrameContext } =
+    useFrameSDK();
 
   return (
     <div className="flex flex-col items-center justify-between h-full w-full">
@@ -21,6 +22,11 @@ export default function StepOne() {
           hell of. Godard jean shorts pug tonx, hot chicken YOLO truffaut
           polaroid poutine sriracha affogato.
         </p>
+        {isValidFrameContext === false && (
+          <pre className="bg-gray-100 p-2 rounded-lg whitespace-pre-wrap break-all text-[16px] text-left min-w-0">
+            Not a valid frame context; you may be on desktop
+          </pre>
+        )}
         {signInResult && (
           <pre className="bg-gray-100 p-2 rounded-lg whitespace-pre-wrap break-all text-[16px] text-left min-w-0">
             {JSON.stringify(
