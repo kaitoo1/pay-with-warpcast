@@ -2,27 +2,27 @@ import { ReactElement } from "react";
 import { FullScreenLoader } from "~/components/FullScreenLoader";
 import dynamic from "next/dynamic";
 
-const StepOne = dynamic(() => import("~/steps/StepOne"), {
+const SendPayment = dynamic(() => import("~/steps/SendPayment"), {
   loading: () => <FullScreenLoader />,
 });
 
-const StepTwo = dynamic(() => import("~/steps/StepTwo"), {
+const RequestPayment = dynamic(() => import("~/steps/RequestPayment"), {
   loading: () => <FullScreenLoader />,
 });
 
-const StepThree = dynamic(() => import("~/steps/StepThree"), {
+const Home = dynamic(() => import("~/steps/Home"), {
   loading: () => <FullScreenLoader />,
 });
 
-const StepFour = dynamic(() => import("~/steps/StepFour"), {
+const About = dynamic(() => import("~/steps/About"), {
   loading: () => <FullScreenLoader />,
 });
 
 export const steps: ReactElement[] = [
-  <StepOne key="step-one" />,
-  <StepTwo key="step-two" />,
-  <StepThree key="step-three" />,
-  <StepFour key="step-four" />,
+  <Home key="home" />,
+  <RequestPayment key="request-payment" />,
+  <SendPayment key="send-payment" />,
+  <About key="about" />,
 ];
 
 export const TOTAL_STEPS = steps.length;
