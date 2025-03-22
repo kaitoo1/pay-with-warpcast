@@ -233,7 +233,7 @@ const QRCodeScanner: FC<QRCodeScannerProps> = memo(({ onValidQRCode }) => {
               onClick={handleRetry}
               className="bg-white text-black hover:bg-gray-200"
             >
-              Retry
+              <p className="text-black">Retry</p>
             </Button>
           </div>
         ) : (

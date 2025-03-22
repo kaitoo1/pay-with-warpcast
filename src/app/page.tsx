@@ -5,9 +5,9 @@ const APP_URL = "https://paywithwarpcast.xyz";
 
 const frame = {
   version: "next",
-  imageUrl: `${APP_URL}/opengraph-image`,
+  imageUrl: `${APP_URL}/opengraph-image.png`,
   button: {
-    title: "Launch Frame",
+    title: "Pay or Request",
     action: {
       type: "launch_frame",
       name: "Pay With Warpcast",
