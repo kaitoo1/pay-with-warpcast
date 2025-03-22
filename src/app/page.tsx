@@ -11,7 +11,7 @@ const frame = {
     action: {
       type: "launch_frame",
       name: "Pay With Warpcast",
-      url: APP_URL,
+      url: `${APP_URL}/frame`,
       splashImageUrl: `${APP_URL}/splash.png`,
       splashBackgroundColor: "#000000",
     },
