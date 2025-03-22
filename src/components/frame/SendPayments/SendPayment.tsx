@@ -8,9 +8,9 @@ import React, {
 } from "react";
 
 import { useSearchParams } from "next/navigation";
-import SendPaymentForm from "~/components/frame/SendPayment/SendPaymentForm";
-import PaymentComplete from "~/components/frame/SendPayment/PaymentComplete";
-import QRCodeScanner from "~/components/frame/SendPayment/QRCodeScanner";
+import SendPaymentForm from "~/components/frame/SendPayments/SendPaymentForm";
+import PaymentComplete from "~/components/frame/SendPayments/PaymentComplete";
+import QRCodeScanner from "~/components/frame/SendPayments/QRCodeScanner";
 import { encodeFunctionData, parseUnits } from "viem";
 import { useSendTransaction, useWaitForTransactionReceipt } from "wagmi";
 import { USDC_CONTRACT_ABI, USDC_CONTRACT_ADDRESS } from "~/lib/contract";

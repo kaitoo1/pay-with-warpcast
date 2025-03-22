@@ -1,5 +1,5 @@
 import React, { FC, memo } from "react";
-import SendPayment from "../SendPayment/SendPayment";
+import SendPayment from "../SendPayments/SendPayment";
 
 const SendPaymentScreen: FC = memo(() => {
   return (
