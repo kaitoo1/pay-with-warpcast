@@ -63,7 +63,7 @@ const ConfirmDetailsStep = memo(
             </div>
 
             <div className="flex flex-col space-y-2">
-              <label className="text-sm font-bold text-center text-white text-gray-600">
+              <label className="text-sm font-bold text-center  text-gray-600">
                 Displayed Name
               </label>
               <div className="relative">
@@ -94,7 +94,7 @@ const ConfirmDetailsStep = memo(
             </div>
 
             <div className="flex flex-col space-y-2">
-              <label className="text-sm font-bold text-center text-white text-gray-600">
+              <label className="text-sm font-bold text-center  text-gray-600">
                 Receiving Address
               </label>
               <div className="relative">
