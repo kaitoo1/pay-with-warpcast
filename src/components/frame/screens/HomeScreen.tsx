@@ -1,8 +1,8 @@
-import React, { useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import { useNavigation } from "~/providers/NavigationContext";
 import Button from "~/components/Button";
 
-const HomeScreen: React.FC = () => {
+const HomeScreen: FC = () => {
   const { navigateTo } = useNavigation();
 
   const handleRequestPayment = useCallback(() => {

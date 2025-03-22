@@ -18,8 +18,11 @@ const buttons = [
 const Numpad = memo(
   ({ onNumpadPress }: { onNumpadPress: (value: string) => void }) => {
     const handleNumpadPress = useCallback(
-      (value: string) => {
-        onNumpadPress(value);
+      (event: React.MouseEvent<HTMLButtonElement>) => {
+        const value = event.currentTarget.textContent;
+        if (value) {
+          onNumpadPress(value);
+        }
       },
       [onNumpadPress]
     );
@@ -29,7 +32,7 @@ const Numpad = memo(
         {buttons.map((btn) => (
           <button
             key={btn}
-            onClick={() => handleNumpadPress(btn)}
+            onClick={handleNumpadPress}
             className="h-16 rounded-full text-2xl font-medium bg-gray-900 text-white flex items-center justify-center"
           >
             {btn === "delete" ? (

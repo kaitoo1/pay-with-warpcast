@@ -9,7 +9,7 @@ import { useNavigation } from "~/providers/NavigationContext";
 import NumpadStep from "./NumpadStep";
 import { formatDisplayAmount } from "~/utils/formatters";
 import ConfirmDetailsStep from "./ConfirmDetailsStep";
-import QRDisplay from "./QRDisplay";
+import QRDisplay, { BASE_URL } from "./QRDisplay";
 
 type Step = "amount" | "details" | "qrcode";
 
@@ -44,15 +44,13 @@ const RequestPayment: React.FC = memo(() => {
 
   // Generate QR code URL with parameters
   const generateQRUrl = useCallback(() => {
-    const baseUrl =
-      "https://www.warpcast.com/~/frames/launch?domain=https://61e2534fbf97.ngrok.app";
     const params = new URLSearchParams();
 
     if (merchantName) params.append("merchantName", merchantName);
     if (amount) params.append("amount", amount);
     if (receivingAddress) params.append("address", receivingAddress);
 
-    return `${baseUrl}&${params.toString()}`;
+    return `${BASE_URL}&${params.toString()}`;
   }, [amount, merchantName, receivingAddress]);
 
   // Handle navigation between steps

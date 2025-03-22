@@ -1,10 +1,10 @@
-import { useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 
 type ErrorMessageProps = {
   error: string;
 };
 
-const ErrorMessage = ({ error }: ErrorMessageProps) => {
+const ErrorMessage: FC<ErrorMessageProps> = memo(({ error }) => {
   const errorText = useMemo(() => {
     if (!error) return "Something went wrong";
 
@@ -20,6 +20,6 @@ const ErrorMessage = ({ error }: ErrorMessageProps) => {
       {errorText}
     </div>
   );
-};
+});
 
 export default ErrorMessage;

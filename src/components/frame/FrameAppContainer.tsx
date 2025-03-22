@@ -1,8 +1,8 @@
-import React, { memo } from "react";
+import React, { FC, memo } from "react";
 import { NavigationProvider } from "~/providers/NavigationContext";
 import ScreenManager from "./ScreenManager";
 
-const AppContainer: React.FC = memo(() => {
+const FrameAppContainer: FC = memo(() => {
   return (
     <NavigationProvider>
       <ScreenManager />
@@ -10,4 +10,4 @@ const AppContainer: React.FC = memo(() => {
   );
 });
 
-export default AppContainer;
+export default FrameAppContainer;

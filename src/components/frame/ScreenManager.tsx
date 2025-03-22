@@ -1,15 +1,13 @@
-import React, { lazy, Suspense } from "react";
-import { useNavigation, ScreenType } from "~/providers/NavigationContext";
+import React, { FC, Suspense } from "react";
+import { useNavigation } from "~/providers/NavigationContext";
 import FullScreenLoader from "~/components/FullScreenLoader";
-
-// Import screens
 
 import RequestPaymentScreen from "./screens/RequestPaymentScreen";
 import SendPaymentScreen from "./screens/SendPaymentScreen";
 import AboutScreen from "./screens/AboutScreen";
 import HomeScreen from "./screens/HomeScreen";
 
-const ScreenManager: React.FC = () => {
+const ScreenManager: FC = () => {
   const { currentScreen } = useNavigation();
 
   // Render the appropriate screen based on the current navigation state

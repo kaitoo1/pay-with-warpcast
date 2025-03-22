@@ -30,6 +30,20 @@ const ConfirmDetailsStep = memo(
       navigateToQRCodeStep();
     }, [navigateToQRCodeStep]);
 
+    const handleMerchantNameChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMerchantName(e.target.value);
+      },
+      [setMerchantName]
+    );
+
+    const handleReceivingAddressChange = useCallback(
+      (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setReceivingAddress(e.target.value);
+      },
+      [setReceivingAddress]
+    );
+
     return (
       <div className="flex flex-col items-center justify-between h-full w-full bg-black text-white px-4">
         <div className="w-full mt-8 relative  text-center flex items-center justify-center">
@@ -56,7 +70,7 @@ const ConfirmDetailsStep = memo(
                 <input
                   type="text"
                   value={merchantName}
-                  onChange={(e) => setMerchantName(e.target.value)}
+                  onChange={handleMerchantNameChange}
                   placeholder="Enter merchant name"
                   className="bg-transparent border-2 border-transparent w-full p-1 bg-black text-center focus:border-white focus:outline-none text-white text-3xl placeholder-gray-500 px-10"
                 />
@@ -86,7 +100,7 @@ const ConfirmDetailsStep = memo(
               <div className="relative">
                 <textarea
                   value={receivingAddress}
-                  onChange={(e) => setReceivingAddress(e.target.value)}
+                  onChange={handleReceivingAddressChange}
                   placeholder="Enter a Base address"
                   className="bg-transparent border-2 border-transparent rounded-lg w-full p-1 bg-black focus:border-white focus:outline-none text-white placeholder-gray-500 resize-none px-10"
                   style={{

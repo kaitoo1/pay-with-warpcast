@@ -12,6 +12,9 @@ type QRDisplayProps = {
   merchantName: string;
 };
 
+export const BASE_URL =
+  "https://www.warpcast.com/~/frames/launch?domain=https://61e2534fbf97.ngrok.app";
+
 const QRDisplay = memo(
   ({
     navigateToDetailsStep,
@@ -24,15 +27,13 @@ const QRDisplay = memo(
 
     // Generate QR code URL with parameters
     const qrUrl = useMemo(() => {
-      const baseUrl =
-        "https://www.warpcast.com/~/frames/launch?domain=https://61e2534fbf97.ngrok.app";
       const params = new URLSearchParams();
 
       if (merchantName) params.append("merchantName", merchantName);
       if (amount) params.append("amount", amount);
       if (receivingAddress) params.append("address", receivingAddress);
 
-      return `${baseUrl}&${params.toString()}`;
+      return `${BASE_URL}&${params.toString()}`;
     }, [amount, merchantName, receivingAddress]);
 
     const handleCopyUrl = useCallback(() => {

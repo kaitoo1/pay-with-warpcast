@@ -1,6 +1,7 @@
 import React, { FC, memo, useCallback, useState, useMemo } from "react";
 import QRCode from "react-qr-code";
 import { isAddress } from "viem";
+import { BASE_URL } from "../frame/RequestPayment/QRDisplay";
 
 const RequestPaymentWeb: FC = memo(() => {
   const [merchantName, setMerchantName] = useState("");
@@ -42,14 +43,12 @@ const RequestPaymentWeb: FC = memo(() => {
 
   // Generate QR code URL with parameters
   const qrUrl = useMemo(() => {
-    const baseUrl =
-      "https://www.warpcast.com/~/frames/launch?domain=https://61e2534fbf97.ngrok.app";
     const params = new URLSearchParams();
 
     if (amount) params.append("amount", amount);
     if (merchantName) params.append("merchantName", merchantName);
     if (receivingAddress) params.append("address", receivingAddress);
-    return `${baseUrl}&${params.toString()}`;
+    return `${BASE_URL}&${params.toString()}`;
   }, [amount, merchantName, receivingAddress]);
   console.log(qrUrl);
 
