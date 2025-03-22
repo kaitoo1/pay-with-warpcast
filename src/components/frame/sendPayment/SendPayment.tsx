@@ -8,9 +8,9 @@ import React, {
 } from "react";
 
 import { useSearchParams } from "next/navigation";
-import SendPaymentForm from "~/components/frame/sendPayment/SendPaymentForm";
-import PaymentComplete from "~/components/frame/sendPayment/PaymentComplete";
-import QRCodeScanner from "~/components/frame/sendPayment/QRCodeScanner";
+import SendPaymentForm from "~/components/frame/SendPayment/SendPaymentForm";
+import PaymentComplete from "~/components/frame/SendPayment/PaymentComplete";
+import QRCodeScanner from "~/components/frame/SendPayment/QRCodeScanner";
 import { encodeFunctionData, parseUnits } from "viem";
 import { useSendTransaction, useWaitForTransactionReceipt } from "wagmi";
 import { USDC_CONTRACT_ABI, USDC_CONTRACT_ADDRESS } from "~/lib/contract";
@@ -65,12 +65,15 @@ const SendPayment: FC = memo(() => {
     }
   }, [isConfirmed]);
 
-  const handleValidQRCode = (amount: string, address: string) => {
-    setAmount(amount);
-    setReceivingAddress(address);
-    setView("form");
-    setMerchantName(merchantName);
-  };
+  const handleValidQRCode = useCallback(
+    (amount: string, address: string, merchantName: string) => {
+      setView("form");
+      setAmount(amount);
+      setReceivingAddress(address);
+      setMerchantName(merchantName);
+    },
+    []
+  );
 
   const handleSendPayment = useCallback(() => {
     if (!receivingAddress) return;
@@ -118,17 +121,17 @@ const SendPayment: FC = memo(() => {
     }
   }, [isSendTxError, sendTxError]);
 
-  const handleGoHome = () => {
+  const handleGoHome = useCallback(() => {
     navigateTo("Home");
-  };
+  }, [navigateTo]);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     // Reset state and go back to scanner
     setAmount("");
     setReceivingAddress("");
     setError(null);
     setView("scanner");
-  };
+  }, []);
 
   // Derive button text based on transaction state
   const buttonText = useMemo(() => {
@@ -147,6 +150,7 @@ const SendPayment: FC = memo(() => {
           amount={amount}
           receivingAddress={receivingAddress}
           transactionHash={transactionHash}
+          merchantName={merchantName}
           onGoHome={handleGoHome}
         />
       );

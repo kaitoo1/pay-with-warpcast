@@ -8,10 +8,11 @@ interface PaymentCompleteProps {
   receivingAddress: string;
   transactionHash: string | null;
   onGoHome: () => void;
+  merchantName: string;
 }
 
 const PaymentComplete: FC<PaymentCompleteProps> = memo(
-  ({ amount, receivingAddress, transactionHash, onGoHome }) => {
+  ({ amount, receivingAddress, transactionHash, onGoHome, merchantName }) => {
     const { context } = useFrameSDK();
     return (
       <div className="flex flex-col items-center justify-between h-full w-full bg-black text-white">
@@ -42,7 +43,7 @@ const PaymentComplete: FC<PaymentCompleteProps> = memo(
               <p className="text-2xl font-semibold">
                 You paid ${formatDisplayAmount(amount)}
               </p>
-              <p className="text-2xl font-bold">to The Krusty Krab</p>
+              <p className="text-2xl font-bold">{merchantName}</p>
             </div>
             <p className="italic mb-8">
               &quot;Thank you {context?.user?.username}!&quot;

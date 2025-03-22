@@ -40,19 +40,6 @@ const HomeScreen: React.FC = () => {
           Pay
         </Button>
 
-        <p className="text-xs text-gray-500 text-center mt-4 px-4">
-          This app is a demo. Please use at your own risk. The open source code
-          is viewable{" "}
-          <a
-            href="https://github.com/kaitodot/pay-with-warpcast"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400 hover:text-blue-300 underline"
-          >
-            here
-          </a>
-          .
-        </p>
         <Button
           onClick={handleAbout}
           className="w-full bg-transparent text-gray-400 py-4 rounded-xl font-medium hover:text-white"
@@ -75,7 +62,20 @@ const HomeScreen: React.FC = () => {
         </Button>
       </div>
 
-      <div className="w-full pb-8 text-center text-gray-500 text-sm">
+      <div className="flex flex-col w-full pb-8 text-center text-gray-500 text-sm space-y-2">
+        <p className="text-xs text-gray-500 text-center mt-4 px-4">
+          This app is a demo. Please use at your own risk. The open source code
+          is viewable{" "}
+          <a
+            href="https://github.com/kaitodot/pay-with-warpcast"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 hover:text-blue-300 underline"
+          >
+            here
+          </a>
+          .
+        </p>
         <p>© {year} Pay With Warpcast</p>
       </div>
     </div>

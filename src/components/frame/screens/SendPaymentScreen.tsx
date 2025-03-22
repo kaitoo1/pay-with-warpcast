@@ -1,16 +1,10 @@
-import React, { memo } from "react";
-import { useNavigation } from "~/providers/NavigationContext";
-import BackButton from "~/components/BackButton";
-import SendPayment from "../frameScreens/SendPayment";
+import React, { FC, memo } from "react";
+import SendPayment from "../SendPayment/SendPayment";
 
-const SendPaymentScreen: React.FC = memo(() => {
-  const { goBack } = useNavigation();
-
+const SendPaymentScreen: FC = memo(() => {
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex-1">
-        <SendPayment />
-      </div>
+      <SendPayment />
     </div>
   );
 });

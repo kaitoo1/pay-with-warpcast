@@ -3,11 +3,9 @@ import QRCode from "react-qr-code";
 import { isAddress } from "viem";
 
 const RequestPaymentWeb: FC = memo(() => {
-  const [merchantName, setMerchantName] = useState("The Krusty Krab");
+  const [merchantName, setMerchantName] = useState("");
   const [amount, setAmount] = useState("0");
-  const [receivingAddress, setReceivingAddress] = useState(
-    "0xA021F1E4C867fD9eE01e94F16Fc67E7e59099b0E"
-  );
+  const [receivingAddress, setReceivingAddress] = useState("");
   const [showQR, setShowQR] = useState(false);
 
   // Update the format display function to include the dollar sign
@@ -43,17 +41,17 @@ const RequestPaymentWeb: FC = memo(() => {
   );
 
   // Generate QR code URL with parameters
-  const generateQRUrl = useCallback(() => {
+  const qrUrl = useMemo(() => {
     const baseUrl =
       "https://www.warpcast.com/~/frames/launch?domain=https://61e2534fbf97.ngrok.app";
     const params = new URLSearchParams();
 
-    if (merchantName) params.append("merchantName", merchantName);
     if (amount) params.append("amount", amount);
+    if (merchantName) params.append("merchantName", merchantName);
     if (receivingAddress) params.append("address", receivingAddress);
-
     return `${baseUrl}&${params.toString()}`;
   }, [amount, merchantName, receivingAddress]);
+  console.log(qrUrl);
 
   // Handle form submission
   const handleSubmit = useCallback(
@@ -97,13 +95,13 @@ const RequestPaymentWeb: FC = memo(() => {
     return (
       amount !== "0" &&
       merchantName.trim() !== "" &&
-      isAddress(receivingAddress)
+      receivingAddress.trim() !== ""
     );
   }, [amount, merchantName, receivingAddress]);
 
   const qrCodeElement = useMemo(() => {
-    return <QRCode value={generateQRUrl()} size={320} />;
-  }, [generateQRUrl]);
+    return <QRCode value={qrUrl} size={320} />;
+  }, [qrUrl]);
 
   return (
     <div className="bg-black flex flex-col items-center justify-center p-4 text-white min-h-screen">
@@ -119,7 +117,7 @@ const RequestPaymentWeb: FC = memo(() => {
                 value={formatDisplayAmount(amount)}
                 onChange={handleAmountChange}
                 onFocus={moveCursorToEnd}
-                className="bg-transparent border-2 border-gray-900 text-center w-full  focus:outline-none text-white text-7xl appearance-none"
+                className="bg-transparent border-2 border-gray-900 text-center w-full focus:border-white focus:outline-none text-white text-7xl appearance-none"
                 required
               />
             </div>
@@ -134,12 +132,12 @@ const RequestPaymentWeb: FC = memo(() => {
               value={merchantName}
               onChange={(e) => setMerchantName(e.target.value)}
               placeholder="Enter merchant name"
-              className="bg-transparent border-2 border-gray-900  w-full p-3 bg-black text-center focus:border-white focus:outline-none text-white text-3xl placeholder-gray-500"
+              className="placeholder-gray-800 bg-transparent border-2 border-gray-900  w-full p-3 bg-black text-center focus:border-white focus:outline-none text-white text-3xl"
               required
             />
           </div>
 
-          <div className="flex flex-col  items-center">
+          <div className="flex flex-col  items-center space-y-2">
             <label className="block text-sm font-bold text-white ">
               Receiving Address
             </label>
@@ -147,7 +145,7 @@ const RequestPaymentWeb: FC = memo(() => {
               value={receivingAddress}
               onChange={(e) => setReceivingAddress(e.target.value)}
               placeholder="Ethereum address on Base"
-              className="bg-transparent border-2 border-gray-900  rounded-lg  w-full p-3 bg-black focus:border-white focus:outline-none text-white placeholder-gray-500 resize-none"
+              className="bg-transparent border-2 border-gray-900  rounded-lg  w-full p-3 bg-black focus:border-white focus:outline-none text-white placeholder-gray-800 resize-none"
               style={{
                 overflow: "hidden",
                 wordBreak: "break-all",

@@ -1,9 +1,7 @@
 import React, { FC, memo } from "react";
-import Button from "~/components/Button";
-import { formatDisplayAmount } from "~/utils/formatters";
-import ProcessingPayment from "./ProcessingPayment";
-import PaymentConfirmation from "./PaymentConfirmation";
-import ErrorMessage from "./ErrorMessage";
+import ProcessingPayment from "~/components/frame/SendPayment/ProcessingPayment";
+import PaymentConfirmation from "~/components/frame/SendPayment/PaymentConfirmation";
+import ErrorMessage from "~/components/frame/SendPayment/ErrorMessage";
 
 interface SendPaymentFormProps {
   amount: string;

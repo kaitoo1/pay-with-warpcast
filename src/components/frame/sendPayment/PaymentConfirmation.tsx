@@ -30,10 +30,7 @@ const PaymentConfirmation = memo(
               </span>
             </div>
           </div>
-          <p className="text-white text-center text-3xl">
-            {merchantName}
-            The Krusty Krab
-          </p>
+          <p className="text-white text-center text-3xl">{merchantName}</p>
           <div className="flex flex-col space-y-2">
             <textarea
               value={receivingAddress}

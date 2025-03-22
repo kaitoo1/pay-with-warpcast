@@ -1,16 +1,10 @@
-import React from "react";
-import { useNavigation } from "~/providers/NavigationContext";
-import RequestPayment from "~/components/frame/frameScreens/RequestPayment/RequestPayment";
-import BackButton from "~/components/BackButton";
+import React, { FC } from "react";
+import RequestPayment from "~/components/frame/RequestPayment/RequestPayment";
 
-const RequestPaymentScreen: React.FC = () => {
-  const { goBack } = useNavigation();
-
+const RequestPaymentScreen: FC = () => {
   return (
     <div className="flex flex-col h-screen px-4">
-      <div className="flex-1">
-        <RequestPayment />
-      </div>
+      <RequestPayment />
     </div>
   );
 };

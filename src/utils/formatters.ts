@@ -24,3 +24,22 @@ export function formatDisplayAmount(
     maximumFractionDigits: 2,
   });
 }
+
+// const formatDisplayAmount = useCallback((value: string) => {
+//     // Remove leading zeros
+//     const cleanValue = value.replace(/^0+(?=\d)/, "");
+
+//     // If it's empty or just "0", return "$0"
+//     if (!cleanValue || cleanValue === "0") return "$0";
+
+//     // Split the number into integer and decimal parts
+//     const parts = cleanValue.split(".");
+//     const integerPart = parts[0];
+//     const decimalPart = parts.length > 1 ? "." + parts[1] : "";
+
+//     // Add commas to the integer part
+//     const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+//     // Combine integer and decimal parts with dollar sign
+//     return "$" + formattedInteger + decimalPart;
+//   }, []);

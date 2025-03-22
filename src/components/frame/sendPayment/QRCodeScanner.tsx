@@ -72,15 +72,37 @@ const QRCodeScanner: FC<QRCodeScannerProps> = memo(({ onValidQRCode }) => {
         return;
       }
 
+      const closeUpKeywords = ["ultra"];
+      let cameraId = null;
+      for (const keyword of closeUpKeywords) {
+        const camera = cameras.find((cam) =>
+          cam.label.toLowerCase().includes(keyword)
+        );
+        if (camera) cameraId = camera.deviceId;
+      }
+
+      if (!cameraId) {
+        const environmentCamera = cameras.find(
+          (camera) =>
+            // Some browsers provide this label information
+            camera.label.toLowerCase().includes("back") ||
+            camera.label.toLowerCase().includes("environment")
+        );
+        if (environmentCamera) cameraId = environmentCamera.deviceId;
+      }
+
+      const cameraSetting = cameraId
+        ? { deviceId: cameraId }
+        : { facingMode: "environment" };
+
       // Set scanning state before starting
       setScanning(true);
 
       await scannerRef.current.start(
-        { facingMode: "environment" },
+        cameraSetting,
         {
           fps: 10,
           qrbox: { width: 250, height: 250 },
-          aspectRatio: 1.0,
         },
         handleQRCodeSuccess,
         handleQRCodeError
@@ -113,17 +135,10 @@ const QRCodeScanner: FC<QRCodeScannerProps> = memo(({ onValidQRCode }) => {
       if (decodedText.includes("warpcast.com/~/frames/launch")) {
         // Extract the URL from the QR code
         const url = new URL(decodedText);
-
-        // Get the domain parameter which contains our app URL with params
-        // const domainParam = url.searchParams.get("domain");
-
-        // if (domainParam) {
-        // Parse the domain URL to extract our parameters
-        //   const appUrl = new URL(domainParam);
         const amount = url.searchParams.get("amount");
         const address = url.searchParams.get("address");
-        const merchantName = url.searchParams.get("merchantName") || "";
-        if (amount && address) {
+        const merchantName = url.searchParams.get("merchantName");
+        if (amount && address && merchantName) {
           // Stop scanning
           if (scannerRef.current) {
             scannerRef.current.stop().catch(console.error);
@@ -134,7 +149,6 @@ const QRCodeScanner: FC<QRCodeScannerProps> = memo(({ onValidQRCode }) => {
           onValidQRCode(amount, address, merchantName);
           return;
         }
-        // }
       }
 
       // If we get here, the QR code wasn't in the expected format
@@ -255,8 +269,6 @@ const QRCodeScanner: FC<QRCodeScannerProps> = memo(({ onValidQRCode }) => {
           </>
         )}
       </div>
-
-      <div className="w-full px-6 pb-8">{/* Footer space */}</div>
     </div>
   );
 });
