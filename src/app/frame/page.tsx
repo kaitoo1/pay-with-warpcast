@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import FrameAppContainer from "~/components/frame/FrameAppContainer";
-import { APP_URL } from "../page";
+
+const APP_URL = "https://paywithwarpcast.xyz";
 
 const frame = {
   version: "next",

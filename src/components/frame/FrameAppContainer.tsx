@@ -1,3 +1,4 @@
+"use client";
 import React, { FC, memo } from "react";
 import { NavigationProvider } from "~/providers/NavigationContext";
 import ScreenManager from "./ScreenManager";

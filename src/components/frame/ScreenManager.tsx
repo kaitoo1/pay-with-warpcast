@@ -1,5 +1,3 @@
-"use client";
-
 import React, { FC, Suspense } from "react";
 import { useNavigation } from "~/providers/NavigationContext";
 import FullScreenLoader from "~/components/FullScreenLoader";

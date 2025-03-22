@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import LandingPage from "~/components/web/LandingPage";
 
-export const APP_URL = "https://paywithwarpcast.xyz";
+const APP_URL = "https://paywithwarpcast.xyz";
 
 const frame = {
   version: "next",
