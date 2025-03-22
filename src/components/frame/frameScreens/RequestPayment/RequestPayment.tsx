@@ -3,9 +3,10 @@ import { useFrameSDK } from "~/providers/FrameSDKContext";
 
 import { useAccount } from "wagmi";
 import BackButton from "~/components/BackButton";
-import { useWizard } from "~/providers/WizardContext";
+
 import { isAddress } from "viem";
 import QRDisplay from "./QRDisplay";
+import { useNavigation } from "~/providers/NavigationContext";
 
 // Update the format display function to include the dollar sign
 export const formatDisplayAmount = (value: string) => {
@@ -71,11 +72,10 @@ const RequestPayment: FC = memo(() => {
     }
   };
 
-  const { goToStep } = useWizard();
-
+  const { navigateTo } = useNavigation();
   const handleBack = useCallback(() => {
-    goToStep(0);
-  }, [goToStep]);
+    navigateTo("Home");
+  }, [navigateTo]);
 
   const handleAddressInput = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -164,7 +164,7 @@ const RequestPayment: FC = memo(() => {
                   <textarea
                     value={receivingAddress}
                     onChange={handleAddressInput}
-                    placeholder="0x..."
+                    placeholder="Enter a Base address"
                     className="bg-transparent border-2 border-gray-900  rounded-lg  w-full p-3 bg-black focus:border-white focus:outline-none text-white placeholder-gray-500 resize-none"
                     style={{
                       overflow: "hidden",
@@ -181,7 +181,7 @@ const RequestPayment: FC = memo(() => {
             <button
               type="submit"
               disabled={!amount || !receivingAddress || !merchantName}
-              className="w-full mt-8 bg-white border border-white text-black py-3 rounded-full hover:bg-white hover:text-black transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full mt-8 bg-white border border-white text-black py-3 rounded-lg hover:bg-white hover:text-black transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Create QR Code
             </button>

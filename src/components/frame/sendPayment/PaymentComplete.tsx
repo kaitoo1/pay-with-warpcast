@@ -23,10 +23,10 @@ const PaymentComplete: FC<PaymentCompleteProps> = memo(
           <div className="w-24 h-24 rounded-full bg-green-500 flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-12 text-white"
+              className="h-20 w-20 text-white"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
+              stroke="#4EFF4E"
             >
               <path
                 strokeLinecap="round"
@@ -37,20 +37,23 @@ const PaymentComplete: FC<PaymentCompleteProps> = memo(
             </svg>
           </div>
 
-          <div className="text-center space-y-2">
-            <p className="text-xl font-semibold">
-              You paid {formatDisplayAmount(amount)} USDC
-            </p>
-            <p className="text-lg font-bold">to The Krusty Krab</p>
+          <div className="text-center space-y-6">
+            <div className="flex flex-col items-center ">
+              <p className="text-2xl font-semibold">
+                You paid ${formatDisplayAmount(amount)}
+              </p>
+              <p className="text-2xl font-bold">to The Krusty Krab</p>
+            </div>
             <p className="italic mb-8">
               &quot;Thank you {context?.user?.username}!&quot;
             </p>
             <div className="flex flex-col items-center space-y-2">
-              <p className="text-sm text-gray-400 break-all mt-16">
-                To: {receivingAddress}
+              <p className="text-sm text-gray-400 break-all mt-12">
+                Sent to: {receivingAddress.substring(0, 10)}...
+                {receivingAddress.substring(receivingAddress.length - 8)}
               </p>
               {transactionHash && (
-                <p className="text-xs text-gray-500 mt-4">
+                <p className="text-sm text-gray-400 mt-4">
                   Transaction: {transactionHash.substring(0, 10)}...
                   {transactionHash.substring(transactionHash.length - 8)}
                 </p>
@@ -59,7 +62,7 @@ const PaymentComplete: FC<PaymentCompleteProps> = memo(
           </div>
         </div>
 
-        <div className="w-full px-6 pb-8">
+        <div className="w-full px-6 pb-16">
           <Button
             onClick={onGoHome}
             className="w-full bg-white text-black hover:bg-gray-200"

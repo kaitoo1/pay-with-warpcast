@@ -9,7 +9,7 @@ import React, {
 import { Html5Qrcode, Html5QrcodeScannerState } from "html5-qrcode";
 import Button from "~/components/Button";
 import BackButton from "~/components/BackButton";
-import { useWizard } from "~/providers/WizardContext";
+import { useNavigation } from "~/providers/NavigationContext";
 
 interface QRCodeScannerProps {
   onValidQRCode: (
@@ -188,11 +188,11 @@ const QRCodeScanner: FC<QRCodeScannerProps> = memo(({ onValidQRCode }) => {
     // The useEffect will trigger startScanner
   }, [scannerRef, scanning]);
 
-  const { goToStep } = useWizard();
+  const { navigateTo } = useNavigation();
 
   const handleBack = useCallback(() => {
-    goToStep(0);
-  }, [goToStep]);
+    navigateTo("Home");
+  }, [navigateTo]);
 
   return (
     <div className="flex flex-col items-center justify-between h-full w-full bg-black text-white">

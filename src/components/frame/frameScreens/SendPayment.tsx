@@ -6,7 +6,7 @@ import React, {
   FC,
   memo,
 } from "react";
-import { useWizard } from "~/providers/WizardContext";
+
 import { useSearchParams } from "next/navigation";
 import SendPaymentForm from "~/components/frame/sendPayment/SendPaymentForm";
 import PaymentComplete from "~/components/frame/sendPayment/PaymentComplete";
@@ -14,9 +14,10 @@ import QRCodeScanner from "~/components/frame/sendPayment/QRCodeScanner";
 import { encodeFunctionData, parseUnits } from "viem";
 import { useSendTransaction, useWaitForTransactionReceipt } from "wagmi";
 import { USDC_CONTRACT_ABI, USDC_CONTRACT_ADDRESS } from "~/lib/contract";
+import { useNavigation } from "~/providers/NavigationContext";
 
 const SendPayment: FC = memo(() => {
-  const { goToStep } = useWizard();
+  const { navigateTo } = useNavigation();
   const searchParams = useSearchParams();
 
   // View state
@@ -118,7 +119,7 @@ const SendPayment: FC = memo(() => {
   }, [isSendTxError, sendTxError]);
 
   const handleGoHome = () => {
-    goToStep(0);
+    navigateTo("Home");
   };
 
   const handleCancel = () => {

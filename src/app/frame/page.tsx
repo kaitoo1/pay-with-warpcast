@@ -1,8 +1,8 @@
 "use client";
 
-import Wizard from "~/components/frame/frameScreens/WizardEntrypoint";
+import AppContainer from "~/components/frame/AppContainer";
 
-// All Frame screens are rendered here
+// All Frame screens are rendered here with the new navigation system
 export default function FramePage() {
-  return <Wizard />;
+  return <AppContainer />;
 }

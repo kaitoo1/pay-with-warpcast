@@ -1,11 +1,10 @@
 import React, { useMemo } from "react";
-import { useWizard } from "~/providers/WizardContext";
+
 import Button from "~/components/Button";
 import { useFrameSDK } from "~/providers/FrameSDKContext";
 import { useSearchParams } from "next/navigation";
 
 export default function StepOne() {
-  const { goNext } = useWizard();
   const { context, signInResult, signInError, isValidFrameContext } =
     useFrameSDK();
 
