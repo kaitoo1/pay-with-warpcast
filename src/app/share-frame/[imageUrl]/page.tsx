@@ -1,6 +1,5 @@
 import { Metadata } from "next";
-
-const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+import { APP_URL } from "~/app/page";
 
 type Props = {
   params: Promise<{ imageUrl: string; auraType: string }>;
@@ -16,19 +15,18 @@ export async function generateMetadata({
     // const { auraType } = await searchParams;
     const paddingTop = 50; // pixels of padding on top
     const paddingBottom = 50; // pixels of padding on bottom
-    const backgroundImageUrl = `${appUrl}/api/create-background`;
 
     const frame = {
       version: "next",
-      imageUrl: backgroundImageUrl,
+      imageUrl: `${APP_URL}/opengraph-image`,
       button: {
         title: "Launch Frame",
         action: {
           type: "launch_frame",
-          name: "Wizard Frame",
-          url: appUrl,
-          splashImageUrl: `${appUrl}/splash.png`,
-          splashBackgroundColor: "#F3EBFF",
+          name: "Pay With Warpcast",
+          url: APP_URL,
+          splashImageUrl: `${APP_URL}/splash.png`,
+          splashBackgroundColor: "#000000",
         },
       },
     };

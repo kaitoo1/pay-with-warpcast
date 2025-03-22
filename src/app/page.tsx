@@ -1,19 +1,19 @@
 import { Metadata } from "next";
 import LandingPage from "~/components/web/LandingPage";
 
-const appUrl = process.env.NEXT_PUBLIC_URL;
+export const APP_URL = "https://paywithwarpcast.xyz";
 
 const frame = {
   version: "next",
-  imageUrl: `${appUrl}/opengraph-image`,
+  imageUrl: `${APP_URL}/opengraph-image`,
   button: {
     title: "Launch Frame",
     action: {
       type: "launch_frame",
       name: "Pay With Warpcast",
-      url: appUrl,
-      splashImageUrl: `${appUrl}/splash.png`,
-      splashBackgroundColor: "#F3EBFF",
+      url: APP_URL,
+      splashImageUrl: `${APP_URL}/splash.png`,
+      splashBackgroundColor: "#000000",
     },
   },
 };
