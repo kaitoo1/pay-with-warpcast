@@ -19,7 +19,7 @@ export async function GET() {
       imageUrl: "https://paywithwarpcast.xyz/opengraph-image.png",
       buttonTitle: "Check this out",
       splashImageUrl: "https://paywithwarpcast.xyz/splash.png",
-      splashBackgroundColor: "#eeccff",
+      splashBackgroundColor: "#000000",
       webhookUrl: "https://paywithwarpcast.xyz/api/webhook",
     },
   };
