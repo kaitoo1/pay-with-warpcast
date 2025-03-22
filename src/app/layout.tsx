@@ -1,23 +1,20 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
-import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Wizard Frame",
-  description: "by Moshicam",
+  title: "Pay With Warpcast",
+  description: "by Kaito",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className="text-gray-900">
-        <Providers>{children}</Providers>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

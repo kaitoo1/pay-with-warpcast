@@ -7,12 +7,11 @@ import React, {
   ReactNode,
   useCallback,
 } from "react";
-import { TOTAL_STEPS } from "../steps/wizard-steps";
+import { TOTAL_STEPS } from "../components/frame/frameScreens/wizard-steps";
 
 interface WizardContextValue {
   currentStep: number;
   goToStep: (stepIndex: number) => void;
-  goNext: () => void;
   goPrevious: () => void;
   direction: "forward" | "backward";
 }
@@ -33,11 +32,6 @@ export function WizardProvider({ children }: { children: ReactNode }) {
     [currentStep]
   );
 
-  const goNext = useCallback(() => {
-    setDirection("forward");
-    setCurrentStep((prev) => (prev < TOTAL_STEPS - 1 ? prev + 1 : prev));
-  }, []);
-
   const goPrevious = useCallback(() => {
     setDirection("backward");
     setCurrentStep((prev) => (prev > 0 ? prev - 1 : prev));
@@ -46,7 +40,7 @@ export function WizardProvider({ children }: { children: ReactNode }) {
   const value: WizardContextValue = {
     currentStep,
     goToStep,
-    goNext,
+
     goPrevious,
     direction,
   };

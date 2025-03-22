@@ -10,8 +10,8 @@ import sdk, {
   FrameNotificationDetails,
   type Context,
 } from "@farcaster/frame-sdk";
-import { FullScreenLoader } from "~/components/FullScreenLoader";
-import { SafeAreaWrapper } from "~/components/SafeAreaWrapper";
+import FullScreenLoader from "~/components/FullScreenLoader";
+import SafeAreaWrapper from "~/components/SafeAreaWrapper";
 import { SignIn as SignInCore } from "@farcaster/frame-sdk";
 import { generateNonce } from "~/lib/nonce";
 

@@ -4,7 +4,10 @@ import React, { useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useWizard } from "~/providers/WizardContext";
 
-import { steps, TOTAL_STEPS } from "~/steps/wizard-steps";
+import {
+  steps,
+  TOTAL_STEPS,
+} from "~/components/frame/frameScreens/wizard-steps";
 
 // Only import SplashScreen eagerly since it's the first step
 import BackButton from "~/components/BackButton";
@@ -46,9 +49,6 @@ export default function WizardPage() {
 
   return (
     <div className="relative h-screen">
-      {/* Back button stays outside AnimatePresence */}
-      {currentStep > 0 && <BackButton onClick={() => goPrevious()} />}
-
       <AnimatePresence initial={false} mode="wait" custom={direction}>
         <motion.div
           key={currentStep}

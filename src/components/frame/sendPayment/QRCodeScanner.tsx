@@ -1,12 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  FC,
+  memo,
+  useCallback,
+} from "react";
 import { Html5Qrcode, Html5QrcodeScannerState } from "html5-qrcode";
 import Button from "~/components/Button";
+import BackButton from "~/components/BackButton";
+import { useWizard } from "~/providers/WizardContext";
 
 interface QRCodeScannerProps {
-  onValidQRCode: (amount: string, address: string) => void;
+  onValidQRCode: (
+    amount: string,
+    address: string,
+    merchantName: string
+  ) => void;
 }
 
-export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
+const QRCodeScanner: FC<QRCodeScannerProps> = memo(({ onValidQRCode }) => {
   const [error, setError] = useState<string | null>(null);
   const [scanning, setScanning] = useState(false);
   const [cameraPermissionDenied, setCameraPermissionDenied] = useState(false);
@@ -43,7 +56,7 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
     }
   }, [isInitialized, scanning, cameraPermissionDenied]);
 
-  const startScanner = async () => {
+  const startScanner = useCallback(async () => {
     if (!scannerRef.current || scanning) return;
 
     // Reset error state
@@ -90,11 +103,9 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
 
       setScanning(false);
     }
-  };
+  }, [scannerRef, scanning, cameraPermissionDenied]);
 
-  const [url, setUrl] = useState<string | null>(null);
-
-  const handleQRCodeSuccess = (decodedText: string) => {
+  const handleQRCodeSuccess = useCallback((decodedText: string) => {
     try {
       console.log("QR Code detected:", decodedText);
 
@@ -103,7 +114,6 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
         // Extract the URL from the QR code
         const url = new URL(decodedText);
 
-        setUrl(url);
         // Get the domain parameter which contains our app URL with params
         // const domainParam = url.searchParams.get("domain");
 
@@ -112,7 +122,7 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
         //   const appUrl = new URL(domainParam);
         const amount = url.searchParams.get("amount");
         const address = url.searchParams.get("address");
-
+        const merchantName = url.searchParams.get("merchantName") || "";
         if (amount && address) {
           // Stop scanning
           if (scannerRef.current) {
@@ -121,7 +131,7 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
           }
 
           // Call the callback with the extracted parameters
-          onValidQRCode(amount, address);
+          onValidQRCode(amount, address, merchantName);
           return;
         }
         // }
@@ -143,15 +153,15 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
         setError(null);
       }, 3000);
     }
-  };
+  }, []);
 
-  const handleQRCodeError = (err: unknown) => {
+  const handleQRCodeError = useCallback((err: unknown) => {
     // This is just for QR scanning errors, not for handling the result
     // We don't want to show these to the user as they happen constantly during scanning
     console.debug("QR scanning error:", err);
-  };
+  }, []);
 
-  const requestCameraPermission = async () => {
+  const requestCameraPermission = useCallback(async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true });
       setCameraPermissionDenied(false);
@@ -163,9 +173,9 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
         "Camera access denied. Please grant camera permissions in your browser settings."
       );
     }
-  };
+  }, []);
 
-  const handleRetry = () => {
+  const handleRetry = useCallback(() => {
     if (
       scannerRef.current &&
       scannerRef.current.getState() === Html5QrcodeScannerState.SCANNING
@@ -176,11 +186,18 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
     setError(null);
     setCameraPermissionDenied(false);
     // The useEffect will trigger startScanner
-  };
+  }, [scannerRef, scanning]);
+
+  const { goToStep } = useWizard();
+
+  const handleBack = useCallback(() => {
+    goToStep(0);
+  }, [goToStep]);
 
   return (
     <div className="flex flex-col items-center justify-between h-full w-full bg-black text-white">
-      <div className="w-full pt-8 pb-4 text-center">
+      <div className="w-full mt-8 px-4 text-center flex items-center justify-center">
+        <BackButton onClick={handleBack} />
         <h1 className="text-2xl font-bold">Scan QR Code</h1>
       </div>
 
@@ -207,7 +224,7 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
           </div>
         ) : (
           <>
-            <div className="relative w-[300px] h-[300px]">
+            <div className="relative w-[300px] h-[400px]">
               <div
                 id={scannerContainerId}
                 className="w-full h-full overflow-hidden"
@@ -233,8 +250,7 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
             )}
 
             <p className="mt-6 text-center text-gray-400 max-w-xs">
-              Align QR code within the square
-              {url && <span className="text-white">{url.toString()}</span>}
+              Scan to pay
             </p>
           </>
         )}
@@ -243,4 +259,6 @@ export default function QRCodeScanner({ onValidQRCode }: QRCodeScannerProps) {
       <div className="w-full px-6 pb-8">{/* Footer space */}</div>
     </div>
   );
-}
+});
+
+export default QRCodeScanner;

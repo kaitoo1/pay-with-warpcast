@@ -15,16 +15,16 @@ export default function Home() {
       {/* Main Content - Centered Buttons */}
       <div className="flex flex-col items-center justify-center flex-grow w-full px-4 space-y-4">
         <Button
-          onClick={() => goToStep(1)}
-          className="w-full max-w-xs bg-white text-black hover:bg-gray-200"
-        >
-          <span className="text-black">Receive</span>
-        </Button>
-        <Button
           onClick={() => goToStep(2)}
           className="w-full max-w-xs bg-white text-black hover:bg-gray-200"
         >
           <span className="text-black">Pay</span>
+        </Button>
+        <Button
+          onClick={() => goToStep(1)}
+          className="w-full max-w-xs bg-white text-black hover:bg-gray-200"
+        >
+          <span className="text-black">Request</span>
         </Button>
       </div>
 

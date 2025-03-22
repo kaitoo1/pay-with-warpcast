@@ -1,37 +1,17 @@
-import React, { memo, useCallback, useState } from "react";
-import { useFrameSDK } from "~/providers/FrameSDKContext";
+import React, { FC, memo, useCallback, useState, useMemo } from "react";
 import QRCode from "react-qr-code";
-import { useAccount } from "wagmi";
+import { isAddress } from "viem";
 
-const RequestPayment: React.FC = memo(() => {
-  const { context } = useFrameSDK();
-  const [merchantName, setMerchantName] = useState("");
+const RequestPaymentWeb: FC = memo(() => {
+  const [merchantName, setMerchantName] = useState("The Krusty Krab");
   const [amount, setAmount] = useState("0");
-  const [receivingAddress, setReceivingAddress] = useState("");
+  const [receivingAddress, setReceivingAddress] = useState(
+    "0xA021F1E4C867fD9eE01e94F16Fc67E7e59099b0E"
+  );
   const [showQR, setShowQR] = useState(false);
 
-  // Get default merchant name from Farcaster username if available
-  const defaultMerchantName = context?.user?.username || "";
-
-  // Set default merchant name when context is available
-  React.useEffect(() => {
-    if (defaultMerchantName && !merchantName) {
-      setMerchantName(defaultMerchantName);
-    }
-  }, [defaultMerchantName, merchantName]);
-
-  // Get wallet address from useAccount
-  const { address } = useAccount();
-
-  // Set receiving address when wallet address becomes available
-  React.useEffect(() => {
-    if (address && !receivingAddress) {
-      setReceivingAddress(address);
-    }
-  }, [address, receivingAddress]);
-
   // Update the format display function to include the dollar sign
-  const formatDisplayAmount = (value: string) => {
+  const formatDisplayAmount = useCallback((value: string) => {
     // Remove leading zeros
     const cleanValue = value.replace(/^0+(?=\d)/, "");
 
@@ -48,25 +28,19 @@ const RequestPayment: React.FC = memo(() => {
 
     // Combine integer and decimal parts with dollar sign
     return "$" + formattedInteger + decimalPart;
-  };
-
-  // Handle amount input to ensure it's valid (up to 2 decimal places)
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Strip any non-numeric characters except decimal point for the stored value
-    const rawValue = e.target.value.replace(/[^\d.]/g, "");
-    if (rawValue === "" || /^\d+(\.\d{0,2})?$/.test(rawValue)) {
-      setAmount(rawValue === "" ? "0" : rawValue);
-    }
-  };
+  }, []);
 
   // Function to move cursor to the end of input
-  const moveCursorToEnd = (e: React.FocusEvent<HTMLInputElement>) => {
-    const valueLength = e.target.value.length;
-    // Use setTimeout to ensure this happens after the default focus behavior
-    setTimeout(() => {
-      e.target.setSelectionRange(valueLength, valueLength);
-    }, 0);
-  };
+  const moveCursorToEnd = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      const valueLength = e.target.value.length;
+      // Use setTimeout to ensure this happens after the default focus behavior
+      setTimeout(() => {
+        e.target.setSelectionRange(valueLength, valueLength);
+      }, 0);
+    },
+    []
+  );
 
   // Generate QR code URL with parameters
   const generateQRUrl = useCallback(() => {
@@ -74,7 +48,7 @@ const RequestPayment: React.FC = memo(() => {
       "https://www.warpcast.com/~/frames/launch?domain=https://61e2534fbf97.ngrok.app";
     const params = new URLSearchParams();
 
-    if (merchantName) params.append("merchant", merchantName);
+    if (merchantName) params.append("merchantName", merchantName);
     if (amount) params.append("amount", amount);
     if (receivingAddress) params.append("address", receivingAddress);
 
@@ -82,21 +56,54 @@ const RequestPayment: React.FC = memo(() => {
   }, [amount, merchantName, receivingAddress]);
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
 
-    // Make sure we're using the raw numeric amount value (without $ and commas)
-    // This is already handled correctly since our state stores the raw value
-
-    if (amount && amount !== "0" && receivingAddress && merchantName) {
-      setShowQR(true);
-    } else {
-      // Show an error or alert if amount is 0
-      if (amount === "0") {
-        alert("Please enter an amount greater than 0");
+      // Check if the address is a valid Ethereum address
+      if (!isAddress(receivingAddress)) {
+        alert("Please enter a valid Ethereum address");
+        return;
       }
-    }
-  };
+
+      if (amount && amount !== "0" && receivingAddress && merchantName) {
+        setShowQR(true);
+      } else {
+        // Show an error or alert if amount is 0
+        if (amount === "0") {
+          alert("Please enter an amount greater than 0");
+        }
+      }
+    },
+    [amount, merchantName, receivingAddress]
+  );
+
+  const handleAmountChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      // Strip any non-numeric characters except decimal point for the stored value
+      const rawValue = e.target.value.replace(/[^\d.]/g, "");
+      if (rawValue === "" || /^\d+(\.\d{0,2})?$/.test(rawValue)) {
+        setAmount(rawValue === "" ? "0" : rawValue);
+      }
+    },
+    []
+  );
+
+  const handleBack = useCallback(() => {
+    setShowQR(false);
+  }, []);
+
+  const isFormValid = useMemo(() => {
+    return (
+      amount !== "0" &&
+      merchantName.trim() !== "" &&
+      isAddress(receivingAddress)
+    );
+  }, [amount, merchantName, receivingAddress]);
+
+  const qrCodeElement = useMemo(() => {
+    return <QRCode value={generateQRUrl()} size={320} />;
+  }, [generateQRUrl]);
 
   return (
     <div className="bg-black flex flex-col items-center justify-center p-4 text-white min-h-screen">
@@ -110,21 +117,9 @@ const RequestPayment: React.FC = memo(() => {
                 type="text"
                 inputMode="decimal"
                 value={formatDisplayAmount(amount)}
-                onChange={(e) => {
-                  // Strip any non-numeric characters except decimal point for the stored value
-                  const rawValue = e.target.value.replace(/[^\d.]/g, "");
-                  if (rawValue === "" || /^\d+(\.\d{0,2})?$/.test(rawValue)) {
-                    setAmount(rawValue === "" ? "0" : rawValue);
-                  }
-                }}
+                onChange={handleAmountChange}
                 onFocus={moveCursorToEnd}
-                onClick={moveCursorToEnd}
                 className="bg-transparent border-2 border-gray-900 text-center w-full  focus:outline-none text-white text-7xl appearance-none"
-                style={{
-                  WebkitAppearance: "none",
-                  MozAppearance: "textfield",
-                  caretColor: "transparent",
-                }}
                 required
               />
             </div>
@@ -142,11 +137,6 @@ const RequestPayment: React.FC = memo(() => {
               className="bg-transparent border-2 border-gray-900  w-full p-3 bg-black text-center focus:border-white focus:outline-none text-white text-3xl placeholder-gray-500"
               required
             />
-            {!merchantName && !defaultMerchantName && (
-              <p className="text-xs text-yellow-500">
-                Waiting for profile information...
-              </p>
-            )}
           </div>
 
           <div className="flex flex-col  items-center">
@@ -156,7 +146,7 @@ const RequestPayment: React.FC = memo(() => {
             <textarea
               value={receivingAddress}
               onChange={(e) => setReceivingAddress(e.target.value)}
-              placeholder="0x..."
+              placeholder="Ethereum address on Base"
               className="bg-transparent border-2 border-gray-900  rounded-lg  w-full p-3 bg-black focus:border-white focus:outline-none text-white placeholder-gray-500 resize-none"
               style={{
                 overflow: "hidden",
@@ -166,16 +156,11 @@ const RequestPayment: React.FC = memo(() => {
               rows={2}
               required
             />
-            {!receivingAddress && address === undefined && (
-              <p className="text-xs text-yellow-500">
-                Waiting for wallet connection...
-              </p>
-            )}
           </div>
 
           <button
             type="submit"
-            disabled={!amount || !receivingAddress || !merchantName}
+            disabled={!isFormValid}
             className="w-full mt-8 bg-white border border-white text-black py-3 rounded-full hover:bg-white hover:text-black transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Create QR Code
@@ -183,21 +168,20 @@ const RequestPayment: React.FC = memo(() => {
         </form>
       ) : (
         <div className="flex flex-col items-center space-y-6">
-          {/* <h2 className="text-2xl font-bold">Scan to pay</h2> */}
           <p>Ask your customer to scan the code to pay.</p>
-          <div className="p-6 bg-white rounded-lg">
-            <QRCode value={generateQRUrl()} size={240} />
-          </div>
-          <div className="text-center space-y-2">
-            <p className="text-3xl font-bold">{formatDisplayAmount(amount)}</p>
-            <p className="text-xl">{merchantName}</p>
+          <div className="flex flex-col items-center space-y-2">
+            <div className="p-6 bg-white rounded-lg">{qrCodeElement}</div>
             <p className="text-xs break-all mt-2 text-gray-400">
               {receivingAddress}
             </p>
           </div>
+          <div className="text-center space-y-2 mt-4">
+            <p className="text-6xl font-bold">{formatDisplayAmount(amount)}</p>
+            <p className="text-2xl">{merchantName}</p>
+          </div>
           <button
-            onClick={() => setShowQR(false)}
-            className="mt-4 bg-transparent border border-white text-white py-2 px-6 rounded-full hover:bg-white hover:text-black transition-colors duration-300"
+            onClick={handleBack}
+            className="mt-12 bg-transparent border border-white text-white py-2 px-6 rounded-full hover:bg-white hover:text-black transition-colors duration-300"
           >
             Back
           </button>
@@ -207,6 +191,6 @@ const RequestPayment: React.FC = memo(() => {
   );
 });
 
-RequestPayment.displayName = "RequestPayment";
+RequestPaymentWeb.displayName = "RequestPaymentWeb";
 
-export default RequestPayment;
+export default RequestPaymentWeb;
