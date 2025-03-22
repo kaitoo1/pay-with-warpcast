@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
+import { FC, memo } from "react";
 
-export function FullScreenLoader() {
+const FullScreenLoader: FC = memo(() => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
-      className="w-full h-screen flex items-center justify-center bg-light-purple"
+      className="w-full h-screen flex items-center justify-center bg-black"
     >
       <svg
         width="50"
@@ -38,4 +39,6 @@ export function FullScreenLoader() {
       </svg>
     </motion.div>
   );
-}
+});
+
+export default FullScreenLoader;

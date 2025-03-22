@@ -12,11 +12,11 @@ export async function generateMetadata({
   searchParams,
 }: Props): Promise<Metadata> {
   try {
-    const { imageUrl } = await params;
-    const { auraType } = await searchParams;
+    // const { imageUrl } = await params;
+    // const { auraType } = await searchParams;
     const paddingTop = 50; // pixels of padding on top
     const paddingBottom = 50; // pixels of padding on bottom
-    const backgroundImageUrl = `${appUrl}/api/create-background?imageUrl=${imageUrl}&paddingTop=${paddingTop}&paddingBottom=${paddingBottom}&auraType=${auraType}`;
+    const backgroundImageUrl = `${appUrl}/api/create-background`;
 
     const frame = {
       version: "next",

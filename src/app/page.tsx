@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import App from "./app";
+import LandingPage from "~/components/web/LandingPage";
 
 const appUrl = process.env.NEXT_PUBLIC_URL;
 
@@ -10,7 +10,7 @@ const frame = {
     title: "Launch Frame",
     action: {
       type: "launch_frame",
-      name: "Wizard Frame",
+      name: "Pay With Warpcast",
       url: appUrl,
       splashImageUrl: `${appUrl}/splash.png`,
       splashBackgroundColor: "#F3EBFF",
@@ -22,10 +22,10 @@ export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Wizard Frame",
+    title: "Pay With Warpcast",
     openGraph: {
-      title: "Wizard Frame",
-      description: "by Moshicam",
+      title: "Pay With Warpcast",
+      description: "by Kaito",
     },
     other: {
       "fc:frame": JSON.stringify(frame),
@@ -34,5 +34,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Home() {
-  return <App />;
+  return <LandingPage />;
 }
