@@ -13,13 +13,13 @@ export async function GET() {
     },
     frame: {
       version: "1",
-      name: "Pay",
+      name: "Pay With Warpcast",
       iconUrl: "https://paywithwarpcast.xyz/splash.png",
       homeUrl: "https://paywithwarpcast.xyz/frame",
       imageUrl: "https://paywithwarpcast.xyz/opengraph-image.png",
       buttonTitle: "Pay or Request",
       splashImageUrl: "https://paywithwarpcast.xyz/splash.png",
-      splashBackgroundColor: "#eeccff",
+      splashBackgroundColor: "#000000",
       webhookUrl: "https://paywithwarpcast.xyz/api/webhook",
     },
   };
