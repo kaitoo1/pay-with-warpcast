@@ -1,7 +1,7 @@
 import React, { FC, memo } from "react";
-import ProcessingPayment from "~/components/frame/SendPayments/ProcessingPayment";
-import PaymentConfirmation from "~/components/frame/SendPayments/PaymentConfirmation";
-import ErrorMessage from "~/components/frame/SendPayments/ErrorMessage";
+import ProcessingPayment from "~/components/frame/SendPayment/ProcessingPayment";
+import PaymentConfirmation from "~/components/frame/SendPayment/PaymentConfirmation";
+import ErrorMessage from "~/components/frame/SendPayment/ErrorMessage";
 
 interface SendPaymentFormProps {
   amount: string;
