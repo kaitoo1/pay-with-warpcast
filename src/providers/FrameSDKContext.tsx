@@ -10,8 +10,8 @@ import sdk, {
   FrameNotificationDetails,
   type Context,
 } from "@farcaster/frame-sdk";
-import { FullScreenLoader } from "~/components/FullScreenLoader";
-import { SafeAreaWrapper } from "~/components/SafeAreaWrapper";
+import FullScreenLoader from "~/components/FullScreenLoader";
+import SafeAreaWrapper from "~/components/SafeAreaWrapper";
 import { SignIn as SignInCore } from "@farcaster/frame-sdk";
 import { generateNonce } from "~/lib/nonce";
 
@@ -24,6 +24,7 @@ interface FrameSDKContextType {
   signInResult: SignInCore.SignInResult | null;
   signInError: Error | undefined;
   handleAddFrame: () => void;
+  isValidFrameContext: boolean | null;
 }
 
 const FrameSDKContext = createContext<FrameSDKContextType | undefined>(
@@ -33,7 +34,10 @@ const FrameSDKContext = createContext<FrameSDKContextType | undefined>(
 // Logic lifted from Demo.tsx in official repo: https://github.com/farcasterxyz/frames-v2-demo/blob/main/src/components/Demo.tsx
 export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [context, setContext] = useState<Context.FrameContext>();
+  const [context, setContext] = useState<FrameSDKContextType["context"]>();
+  const [isValidFrameContext, setIsValidFrameContext] = useState<
+    boolean | null
+  >(null);
   const [added, setAdded] = useState(false);
   const [notificationDetails, setNotificationDetails] =
     useState<FrameNotificationDetails | null>(null);
@@ -52,16 +56,22 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const load = async () => {
       const context = await sdk.context;
-      setContext(context);
-      setAdded(context.client.added);
 
-      const nonce = await getNonce();
+      if (context) {
+        setIsValidFrameContext(true);
+        setContext(context);
+        setAdded(context.client.added);
 
-      try {
-        const signInResult = await sdk.actions.signIn({ nonce });
-        setSignInResult(signInResult);
-      } catch (error) {
-        setSignInError(error as Error);
+        const nonce = await getNonce();
+
+        try {
+          const signInResult = await sdk.actions.signIn({ nonce });
+          setSignInResult(signInResult);
+        } catch (error) {
+          setSignInError(error as Error);
+        }
+      } else {
+        setIsValidFrameContext(false);
       }
 
       sdk.actions.ready({});
@@ -101,13 +111,7 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
       });
     };
 
-    if (process.env.NEXT_PUBLIC_USER_CONTEXT_REQUIRED !== "true") {
-      // manually load app without authentication
-      sdk.actions.ready({});
-      setIsLoaded(true);
-    } else {
-      load();
-    }
+    load();
 
     return () => {
       sdk.removeAllListeners();
@@ -132,6 +136,7 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
       lastEvent,
       signInResult,
       signInError,
+      isValidFrameContext,
       handleAddFrame,
     }),
     [
@@ -142,6 +147,7 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
       lastEvent,
       signInResult,
       signInError,
+      isValidFrameContext,
       handleAddFrame,
     ]
   );

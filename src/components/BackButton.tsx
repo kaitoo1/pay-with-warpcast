@@ -9,7 +9,7 @@ interface BackButtonProps {
 
 const BackButton: FC<BackButtonProps> = ({ onClick }) => {
   return (
-    <button onClick={onClick} className="absolute top-0 left-0 p-4 text-black">
+    <button onClick={onClick} className="p-1 text-white absolute left-0">
       <ArrowLeftIcon />
     </button>
   );

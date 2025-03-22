@@ -1,11 +1,7 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { AppProps } from "next/app";
 
-const Wizard = dynamic(() => import("../steps/WizardEntrypoint"), {
-  ssr: false,
-});
-
-export default function App() {
-  return <Wizard />;
+export default function App({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
 }

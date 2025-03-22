@@ -1,58 +1,31 @@
-# 🖼️ Farcaster Miniapp Wizard (Frame v2)
+# Pay With Warpcast
 
-[🛠️ Frame Playground](https://warpcast.com/~/developers/frame-playground) (Mobile only)<br/>
-[📦 Frame SDK](https://github.com/farcasterxyz/frames/)<br/>
-[👀 Dev preview docs](https://github.com/farcasterxyz/frames/wiki/frames-v2-developer-playground-preview)<br/>
-[⭐️ Official Demo Repo](https://github.com/farcasterxyz/frames-v2-demo/tree/main)<br/>
+This app lets anyone receive or pay money easily using Warpcast.
 
-## Screenshots
+## Who it's for
 
-<div style="display: flex; justify-content: space-between;">
-  <img src="/src/docs/1.png" width="30%" alt="Step 1" />
-  <img src="/src/docs/2.png" width="30%" alt="Step 2" />
-  <img src="/src/docs/3.png" width="30%" alt="Step 3" />
-</div>
+Anyone looking to easily receive USDC without the hassle of:
 
-## Getting Started (Moshicam specific)
+- Telling the payer how much to send
+- Choosing the right chain
+- Finding the right wallet app
 
-[📺 Loom overview of this repo](https://www.loom.com/share/e57353e0836f44d0a2cc0f4f983aede4?sid=21e16467-c6be-4524-ba53-fb774112943b)
+## How it works
 
-This is a NextJS + TypeScript + React app built with Bun.
+### To get paid:
 
-To install dependencies:
+1. Enter the amount you're asking for
+2. Generate a QR code
+3. Ask sender to scan (or click the link)
+4. They pay with their Warpcast frame
+5. Money goes straight to your wallet
 
-```bash
-$ bun install
-```
+### To pay:
 
-To run the app:
+1. Scan the QR code with this app or your camera app
+2. Confirm the amount and hit Pay.
+3. Done!
 
-```bash
-$ bun dev
-```
+## Contact
 
-Copy `.env.example` to `.env.local`
-
-View the app via Warpcast's developer playground.
-We're using ngrok to access our local dev server over the internet.
-
-```bash
-$ ngrok http 3000
-```
-
-Open this url on your mobile device. It should deep link to the Frame Playground in the Warpcast app.
-[https://warpcast.com/~/developers/frame-playground](https://warpcast.com/~/developers/frame-playground).
-
-Alternatively, you can enable Developer Tools in your Warpcast mobile app to access it directly from your Settings.
-
-In the Frame Playground, enter your ngrok URL.
-
-If you don't include the https:// the Warpcast app might crash.
-
-## Tutorial (Old info from original Frames README)
-
-Here's a full walkthrough of creating a frames v2 app:
-
-[![Frames v2 Tutorial](https://img.youtube.com/vi/5wAbo_YsuC4/0.jpg)](https://www.youtube.com/watch?v=5wAbo_YsuC4)
-
-[📺 View video](https://www.youtube.com/watch?v=5wAbo_YsuC4)
+For support or feedback, please contact @kaito on Farcaster.

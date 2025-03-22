@@ -1,27 +1,28 @@
 // https://docs.farcaster.xyz/developers/frames/v2/spec#frame-manifest
 // set your farcaster `accountAssociation` by using the Domains feature
 // in the Warpcast Mobile App after enabling Developer Tools.
+
 export async function GET() {
-  const appUrl = process.env.NEXT_PUBLIC_URL;
   const config = {
     accountAssociation: {
       header:
-        "eyJmaWQiOjM2MjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgyY2Q4NWEwOTMyNjFmNTkyNzA4MDRBNkVBNjk3Q2VBNENlQkVjYWZFIn0",
-      payload: "eyJkb21haW4iOiJmcmFtZXMtdjIudmVyY2VsLmFwcCJ9",
+        "eyJmaWQiOjIzODMsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHhGMzk4QjJEMTNiYTdFOWM3RDIxOUY1N2I3MjQ5NkE0YzA5RGM3MDM1In0",
+      payload: "eyJkb21haW4iOiJwYXl3aXRod2FycGNhc3QueHl6In0",
       signature:
-        "MHhiNDIwMzQ1MGZkNzgzYTExZjRiOTllZTFlYjA3NmMwOTdjM2JkOTY1NGM2ODZjYjkyZTAyMzk2Y2Q0YjU2MWY1MjY5NjI5ZGQ5NTliYjU0YzEwOGI4OGVmNjdjMTVlZTdjZDc2YTRiMGU5NzkzNzA3YzkxYzFkOWFjNTg0YmQzNjFi",
+        "MHhjYmQ1M2UzMDc2M2M1ZjZiMmJkZmIwOGFlYjk5OTYzNGE0Njc2NTMyZDJlNDVmZWNlZmRkZjIzOTg1ZGViZWZkNmJjNDU5MTM1Yzc4ZjZiMTkyMmNiYTkyNjFiNDExMGM1N2NiYTE0ZGYxNTk3Y2ZiNDgyN2U2YWRjYzdlNmFmNTFi",
     },
     frame: {
       version: "1",
-      name: "Frames v2 Demo",
-      iconUrl: `${appUrl}/splash.png`,
-      homeUrl: appUrl,
-      imageUrl: `${appUrl}/opengraph-image`,
-      buttonTitle: "Launch Frame",
-      splashImageUrl: `${appUrl}/splash.png`,
-      splashBackgroundColor: "#F3EBFF",
-      webhookUrl: `${appUrl}/api/webhook`,
+      name: "Pay",
+      iconUrl: "https://paywithwarpcast.xyz/splash.png",
+      homeUrl: "https://paywithwarpcast.xyz/frame",
+      imageUrl: "https://paywithwarpcast.xyz/opengraph-image.png",
+      buttonTitle: "Check this out",
+      splashImageUrl: "https://paywithwarpcast.xyz/splash.png",
+      splashBackgroundColor: "#eeccff",
+      webhookUrl: "https://paywithwarpcast.xyz/api/webhook",
     },
   };
+
   return Response.json(config);
 }
