@@ -1,5 +1,3 @@
-"use client";
-
 import { Metadata } from "next";
 import FrameAppContainer from "~/components/frame/FrameAppContainer";
 import { APP_URL } from "../page";
