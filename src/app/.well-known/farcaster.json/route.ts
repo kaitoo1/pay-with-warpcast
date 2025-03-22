@@ -13,10 +13,10 @@ export async function GET() {
     },
     frame: {
       version: "1",
-      name: "Example Frame",
-      iconUrl: "https://paywithwarpcast.xyz/icon.png",
+      name: "Pay",
+      iconUrl: "https://paywithwarpcast.xyz/splash.png",
       homeUrl: "https://paywithwarpcast.xyz/frame",
-      imageUrl: "https://paywithwarpcast.xyz/image.png",
+      imageUrl: "https://paywithwarpcast.xyz/opengraph-image.png",
       buttonTitle: "Check this out",
       splashImageUrl: "https://paywithwarpcast.xyz/splash.png",
       splashBackgroundColor: "#eeccff",
