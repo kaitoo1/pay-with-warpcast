@@ -143,7 +143,7 @@ const RequestPaymentWeb: FC = memo(() => {
             <textarea
               value={receivingAddress}
               onChange={(e) => setReceivingAddress(e.target.value)}
-              placeholder="Ethereum address on Base"
+              placeholder="Enter a Base address"
               className="bg-transparent border-2 border-gray-900  rounded-lg  w-full p-3 bg-black focus:border-white focus:outline-none text-white placeholder-gray-800 resize-none"
               style={{
                 overflow: "hidden",
