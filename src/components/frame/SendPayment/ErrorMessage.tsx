@@ -16,7 +16,7 @@ const ErrorMessage: FC<ErrorMessageProps> = memo(({ error }) => {
   }, [error]);
 
   return (
-    <div className="p-3 text-white rounded text-center text-[#FBC918]">
+    <div className="p-3 text-[#FBC918] rounded text-center text-[#FBC918]">
       {errorText}
     </div>
   );

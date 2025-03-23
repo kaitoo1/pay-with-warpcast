@@ -43,7 +43,7 @@ const PaymentComplete: FC<PaymentCompleteProps> = memo(
               <p className="text-2xl font-semibold">
                 You paid ${formatDisplayAmount(amount)}
               </p>
-              <p className="text-2xl font-bold">{merchantName}</p>
+              to <p className="text-2xl font-bold">{merchantName}</p>
             </div>
             <p className="italic mb-8">
               &quot;Thank you {context?.user?.username}!&quot;
