@@ -46,16 +46,28 @@ const SendPayment: FC = memo(() => {
       hash: transactionHash as `0x${string}`,
     });
 
+  const [arrivedFromDeepLink, setArrivedFromDeepLink] = useState(false);
+
   useEffect(() => {
     // Get payment details from URL params
     const amountParam = searchParams.get("amount");
     const addressParam = searchParams.get("address");
     const merchantNameParam = searchParams.get("merchantName");
-    if (amountParam && addressParam) {
+    if (amountParam && addressParam && merchantNameParam) {
       setAmount(amountParam);
       setReceivingAddress(addressParam);
       setMerchantName(merchantNameParam || "");
+
       setView("form");
+      setArrivedFromDeepLink(true);
+
+      // Remove the parameters from the URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete("amount");
+      url.searchParams.delete("address");
+      url.searchParams.delete("merchantName");
+      // Replace the current URL without reloading the page
+      window.history.replaceState({}, document.title, url.toString());
     }
   }, [searchParams]);
 
@@ -130,8 +142,13 @@ const SendPayment: FC = memo(() => {
     setAmount("");
     setReceivingAddress("");
     setError(null);
-    setView("scanner");
-  }, []);
+
+    if (arrivedFromDeepLink) {
+      navigateTo("Home");
+    } else {
+      setView("scanner");
+    }
+  }, [arrivedFromDeepLink, navigateTo]);
 
   // Derive button text based on transaction state
   const buttonText = useMemo(() => {
