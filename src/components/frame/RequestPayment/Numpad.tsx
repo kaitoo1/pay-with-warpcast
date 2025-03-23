@@ -19,7 +19,7 @@ const Numpad = memo(
   ({ onNumpadPress }: { onNumpadPress: (value: string) => void }) => {
     const handleNumpadPress = useCallback(
       (event: React.MouseEvent<HTMLButtonElement>) => {
-        const value = event.currentTarget.textContent;
+        const value = event.currentTarget.dataset.value;
         if (value) {
           onNumpadPress(value);
         }
@@ -34,6 +34,7 @@ const Numpad = memo(
             key={btn}
             onClick={handleNumpadPress}
             className="h-16 rounded-full text-2xl font-medium bg-gray-900 text-white flex items-center justify-center"
+            data-value={btn}
           >
             {btn === "delete" ? (
               <svg

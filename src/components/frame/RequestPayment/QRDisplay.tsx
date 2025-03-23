@@ -13,7 +13,7 @@ type QRDisplayProps = {
 };
 
 export const BASE_URL =
-  "https://www.warpcast.com/~/frames/launch?domain=https://www.paywithwarpcast.xyz";
+  "https://www.warpcast.com/~/frames/launch?domain=paywithwarpcast.xyz";
 
 const QRDisplay = memo(
   ({

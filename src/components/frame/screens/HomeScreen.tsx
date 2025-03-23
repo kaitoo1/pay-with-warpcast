@@ -1,9 +1,22 @@
-import React, { FC, useCallback, useMemo } from "react";
+import React, { FC, useCallback, useEffect, useMemo } from "react";
 import { useNavigation } from "~/providers/NavigationContext";
 import Button from "~/components/Button";
 
 const HomeScreen: FC = () => {
   const { navigateTo } = useNavigation();
+
+  // Check URL parameters on component mount
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const amount = searchParams.get("amount");
+    const address = searchParams.get("address");
+    const merchantName = searchParams.get("merchantName");
+
+    // If all required parameters are present, navigate to SendPayment
+    if (amount && address && merchantName) {
+      navigateTo("SendPayment");
+    }
+  }, [navigateTo]);
 
   const handleRequestPayment = useCallback(() => {
     navigateTo("RequestPayment");

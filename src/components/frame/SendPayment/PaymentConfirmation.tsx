@@ -21,8 +21,8 @@ const PaymentConfirmation = memo(
     onCancel,
   }: PaymentConfirmationProps) => {
     return (
-      <div className="flex flex-col w-full flex-1 justify-between">
-        <div className="flex flex-col flex-1 w-full max-w-md space-y-6 justify-center">
+      <div className="flex flex-col w-full flex-1 justify-between items-center">
+        <div className="flex flex-col flex-1 w-full max-w-md space-y-6 items-center justify-center">
           <div className="flex flex-col space-y-2 items-center">
             <div className="flex items-center p-3">
               <span className="text-8xl font-bold">
