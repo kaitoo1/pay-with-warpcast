@@ -1,3 +1,4 @@
+import { sdk } from "@farcaster/frame-sdk";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import QRCode from "react-qr-code";
 import BackButton from "~/components/BackButton";
@@ -54,6 +55,16 @@ const QRDisplay = memo(
         });
     }, [qrUrl]);
 
+    const handleShareOnWarpcast = useCallback(() => {
+      const linkUrl = `https://paywithwarpcast.xyz/frame?amount=${amount}&address=${receivingAddress}&merchantName=${merchantName}`;
+
+      sdk.actions.openUrl(
+        `https://warpcast.com/~/compose?text=${encodeURIComponent(
+          `Pay $${formatDisplayAmount(amount)} with Warpcast`
+        )}&embeds[]=${encodeURIComponent(linkUrl)}`
+      );
+    }, [qrUrl]);
+
     const { navigateTo } = useNavigation();
 
     const handleClose = useCallback(() => {
@@ -87,12 +98,18 @@ const QRDisplay = memo(
             <p className="text-2xl">{merchantName}</p>
           </div>
         </div>
-        <div className="flex w-full ">
+        <div className="flex  flex-row w-full space-x-2">
           <button
             onClick={handleCopyUrl}
             className="flex flex-1 text-center items-center justify-center bg-transparent border border-white w-full text-white py-3 rounded-lg font-medium transition-colors duration-300"
           >
             {copyButtonText}
+          </button>
+          <button
+            onClick={handleShareOnWarpcast}
+            className="flex flex-1 text-center items-center justify-center bg-transparent border border-white w-full text-white py-3 rounded-lg font-medium transition-colors duration-300"
+          >
+            Share on Warpcast
           </button>
         </div>
       </div>

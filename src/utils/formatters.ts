@@ -18,9 +18,19 @@ export function formatDisplayAmount(
     return "0";
   }
 
+  // Check if the number is a whole number (no decimal part)
+  const isWholeNumber = numAmount === Math.floor(numAmount);
+
+  if (isWholeNumber) {
+    return numAmount.toLocaleString("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
+  }
+
   // Format with commas and up to 2 decimal places
   return numAmount.toLocaleString("en-US", {
-    minimumFractionDigits: 0,
+    minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 }

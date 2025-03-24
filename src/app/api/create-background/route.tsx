@@ -1,17 +1,11 @@
 import { NextRequest } from "next/server";
 import { ImageResponse } from "next/og";
+// import QRCode from "react-qr-code";
+// import QRCode from "qrcode";
+import { useMemo } from "react";
 
-const styles = {
-  imageContainer: {
-    display: "flex",
-    height: "100%",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "black",
-    color: "white",
-  },
-};
+const BASE_URL =
+  "https://www.warpcast.com/~/frames/launch?domain=paywithwarpcast.xyz";
 
 // 3:2 aspect ratio dimensions
 const WIDTH = 1200;
@@ -20,34 +14,62 @@ const HEIGHT = 800; // 1200 * (2/3)
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const imageUrl = searchParams.get("imageUrl");
-    const paddingTop = parseInt(searchParams.get("paddingTop") || "50");
-    const paddingBottom = parseInt(searchParams.get("paddingBottom") || "50");
-    const auraType = searchParams.get("auraType")?.toLowerCase() || "ruby";
+    const amount = searchParams.get("amount");
+    const address = searchParams.get("address");
+    const merchantName = searchParams.get("merchantName");
 
-    // if (!imageUrl) {
-    //   return new Response("Image URL is required", { status: 400 });
-    // }
+    const params = new URLSearchParams();
 
-    // Get gradient colors based on auraType
-    // const colors = auraColors[auraType as keyof typeof auraColors] || {
-    //   top: moshiBlack,
-    //   bottom: moshiBlack,
-    // };
+    if (merchantName) params.append("merchantName", merchantName);
+    if (amount) params.append("amount", amount);
+    if (address) params.append("address", address);
 
-    // Calculate image height to maintain original aspect ratio
-    // but ensure the overall container has 3:2 aspect ratio
-    const imageHeight = HEIGHT - (paddingTop + paddingBottom);
+    // const qrUrl = `${BASE_URL}&${params.toString()}`;
 
     return new ImageResponse(
       (
         <div
           style={{
-            ...styles.imageContainer,
+            display: "flex",
+            flexDirection: "column" as const,
+            height: "100%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            background: "black",
+            color: "white",
           }}
-          className="bg-black text-white"
         >
-          <p style={{ fontSize: 80 }}>Pay with Warpcast</p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              flex: 1,
+              paddingTop: 60,
+            }}
+          >
+            <p style={{ fontSize: 50, lineHeight: 1 }}>
+              {merchantName} requests
+            </p>
+            <p style={{ fontSize: 130, lineHeight: 1, textAlign: "center" }}>
+              ${amount}
+            </p>
+          </div>
+
+          <p
+            style={{
+              fontSize: 30,
+              lineHeight: 1,
+              alignSelf: "flex-end",
+              justifySelf: "flex-end",
+              marginRight: 40,
+              marginBottom: 40,
+            }}
+          >
+            Pay with Warpcast
+          </p>
         </div>
       ),
       {
